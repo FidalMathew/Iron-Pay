@@ -1,12 +1,10 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import { ConnectKitProvider } from "@/utils/ConnectKitProvider";
+import { ConnectKitButton } from "connectkit";
 
 export default function Home() {
   return (
-    <div>
-      <p>hello</p>
-    </div>
+    <ConnectKitProvider>
+      <ConnectKitButton />
+    </ConnectKitProvider>
   );
 }
