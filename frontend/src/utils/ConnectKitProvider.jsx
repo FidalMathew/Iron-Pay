@@ -1,8 +1,8 @@
-import {WagmiProvider, createConfig} from "wagmi";
+import {WagmiProvider, createConfig, http} from "wagmi";
 import {mainnet} from "wagmi/chains";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {ConnectKitProvider, getDefaultConfig} from "connectkit";
-
+import {ThemeProvider as NextThemesProvider} from "next-themes";
 const config = createConfig(
   getDefaultConfig({
     // Your dApps chains
@@ -29,11 +29,13 @@ const config = createConfig(
 
 const queryClient = new QueryClient();
 
-export const ConnectKitProvider = ({children}) => {
+export const ConnectKitProviderComponent = ({children, ...props}) => {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <ConnectKitProvider>{children}</ConnectKitProvider>
+        <ConnectKitProvider>
+          <NextThemesProvider {...props}>{children}</NextThemesProvider>
+        </ConnectKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
