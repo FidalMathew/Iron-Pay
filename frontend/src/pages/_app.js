@@ -12,7 +12,7 @@ export default function App({ Component, pageProps }) {
   return (
     <ConnectKitProviderComponent
       attribute="class"
-      defaultTheme="system"
+      defaultTheme="light"
       enableSystem
       disableTransitionOnChange>
       <Component {...pageProps} />

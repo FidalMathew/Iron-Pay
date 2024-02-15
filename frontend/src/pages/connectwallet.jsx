@@ -16,7 +16,7 @@ export default function connectwallet() {
   }, [account]);
   return (
     <div className="h-screen w-full grid place-items-center">
-      <ConnectKitButton />
+      <ConnectKitButton theme="retro" />
     </div>
   );
 }
