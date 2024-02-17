@@ -2,7 +2,7 @@ import {cn} from "@/lib/utils";
 import {forwardRef} from "react";
 
 const CustomButton = forwardRef(
-  ({className, backBg = "bg-pink-500", onClick, ...props}, ref) => {
+  ({className, backBg = "bg-pink-500", onClick, children, ...props}, ref) => {
     return (
       <div
         onClick={onClick}
@@ -11,7 +11,7 @@ const CustomButton = forwardRef(
         {...props}
       >
         <div className="bg-white border border-black w-[150px] h-[50px] absolute z-10 rounded-[0.1rem] grid place-items-center font-semibold text-sm">
-          Create Integration
+          {children}
         </div>
         <div
           className={cn(
