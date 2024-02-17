@@ -1,6 +1,3 @@
-import CustomButton from "@/components/customComponent/CustomButton";
-import {ModeToggle} from "@/components/ui/Toggletheme";
-import {Button} from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,22 +6,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-
 import {useRouter} from "next/router";
 import {useEffect, useRef, useState} from "react";
 import {useAccount} from "wagmi";
 import {useDisconnect} from "wagmi";
 import {useChains} from "wagmi";
+import {ModeToggle} from "./ui/Toggletheme";
+import {Button} from "./ui/button";
 import Link from "next/link";
 
-export default function Dashboard() {
+export default function NavbarComponent() {
   const account = useAccount();
   console.log(account, "acc");
   const router = useRouter();
@@ -39,24 +30,8 @@ export default function Dashboard() {
     }
   }, [account.address]);
 
-  const [openIntegrationModal, setOpenIntegrationModal] = useState(false);
-
   return (
-    <div className="h-screen w-full font-ironFont pt-2 px-5">
-      <Dialog
-        open={openIntegrationModal}
-        onOpenChange={setOpenIntegrationModal}
-      >
-        <DialogContent className="border-[2.5px] border-black">
-          <DialogHeader>
-            <DialogTitle>Are you absolutely sure?</DialogTitle>
-            <DialogDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+    <>
       <div className="flex justify-between p-5 h-[10%]">
         <div className="flex items-center space-x-6">
           <div className="flex items-center space-x-3">
@@ -70,22 +45,16 @@ export default function Dashboard() {
 
           <div className="flex items-center space-x-4">
             <Link
-              href="/"
+              href="/dashboard"
               className="hover:underline underline-offset-8 cursor-pointer"
             >
               Dashboard
             </Link>
             <Link
-              href="/"
+              href="/dashboard/integration"
               className="hover:underline underline-offset-8 cursor-pointer"
             >
               Integration
-            </Link>
-            <Link
-              href="/"
-              className="hover:underline underline-offset-8 cursor-pointer"
-            >
-              Analytics
             </Link>
           </div>
         </div>
@@ -115,13 +84,6 @@ export default function Dashboard() {
           <ModeToggle />
         </div>
       </div>
-      <div className="w-full h-[90%] flex justify-end items-start">
-        <CustomButton
-          backBg="bg-pink-500"
-          className="mt-3"
-          onClick={() => setOpenIntegrationModal((prev) => !prev)}
-        />
-      </div>
-    </div>
+    </>
   );
 }

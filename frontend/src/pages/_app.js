@@ -1,6 +1,8 @@
 import "@/styles/globals.css";
 import { ConnectKitProviderComponent } from "@/utils/ConnectKitProvider";
 import { useEffect, useState } from "react";
+import IronfishContextProvider from "@/context/ironfishContextProvider";
+
 export default function App({ Component, pageProps }) {
 
   const [mounted, setMounted] = useState(false);
@@ -10,12 +12,14 @@ export default function App({ Component, pageProps }) {
 
 
   return (
-    <ConnectKitProviderComponent
-      attribute="class"
-      defaultTheme="light"
-      enableSystem
-      disableTransitionOnChange>
-      <Component {...pageProps} />
-    </ConnectKitProviderComponent>
+    <IronfishContextProvider>
+      <ConnectKitProviderComponent
+        attribute="class"
+        defaultTheme="light"
+        enableSystem
+        disableTransitionOnChange>
+        <Component {...pageProps} />
+      </ConnectKitProviderComponent>
+    </IronfishContextProvider>
   )
 }
