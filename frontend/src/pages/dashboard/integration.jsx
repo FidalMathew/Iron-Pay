@@ -57,14 +57,14 @@ export default function Integration() {
                 }}
                 onSubmit={(val) => {
                   console.log(val)
-                  // writeContract({
-                  //   abi,
-                  //   address: contractAddress,
-                  //   functionName: "registerShop",
-                  //   args: [
-                  //     val.ironFishAddress
-                  //   ],
-                  // });
+                  writeContract({
+                    abi,
+                    address: contractAddress,
+                    functionName: "registerShop",
+                    args: [
+                      val.ironFishAddress
+                    ],
+                  });
                 }}
               >
                 {(formik) => (
