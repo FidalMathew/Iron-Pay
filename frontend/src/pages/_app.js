@@ -1,8 +1,6 @@
-import { IronfishAccountContextProvider } from "@/context/ironfish-context-provider";
 import "@/styles/globals.css";
 import { ConnectKitProviderComponent } from "@/utils/ConnectKitProvider";
-import { useEffect, useState } from "react";
-import IronfishContextProvider from "@/context/ironfishContextProvider";
+import { useEffect, useState } from "react"
 
 export default function App({ Component, pageProps }) {
   const [mounted, setMounted] = useState(false);
@@ -15,27 +13,13 @@ export default function App({ Component, pageProps }) {
   if (!mounted) return null;
 
   return (
-<<<<<<< HEAD
-    <IronfishAccountContextProvider>
-=======
-    <IronfishContextProvider>
->>>>>>> afcf9ac5fc535c5e15e899fd5e6b5c984c09dd93
-      <ConnectKitProviderComponent
-        attribute="class"
-        defaultTheme="light"
-        enableSystem
-<<<<<<< HEAD
-        disableTransitionOnChange
-      >
-        <Component {...pageProps} />
-      </ConnectKitProviderComponent>
-    </IronfishAccountContextProvider>
+    <ConnectKitProviderComponent
+      attribute="class"
+      defaultTheme="light"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <Component {...pageProps} />
+    </ConnectKitProviderComponent>
   );
-=======
-        disableTransitionOnChange>
-        <Component {...pageProps} />
-      </ConnectKitProviderComponent>
-    </IronfishContextProvider>
-  )
->>>>>>> afcf9ac5fc535c5e15e899fd5e6b5c984c09dd93
 }
