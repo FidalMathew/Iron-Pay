@@ -30,6 +30,8 @@ contract Merchant {
 
     Product[] private transactions;
 
+    mapping(address => uint256) amtMap;
+
     constructor() {
         wContract = wironContract(wironContractAddress);
     }
@@ -43,15 +45,18 @@ contract Merchant {
         uint256 quantity
     ) external {
         require(amount == price * quantity, "invalid amount");
+        require(amtMap[msg.sender] >= amount, "insufficient amount");
         wContract.transferWithMetadata(to, amount, metadata);
-        // balance[metadata]+=amount;
 
+        amtMap[msg.sender] -= amount;
         transactions.push(
             Product(productId, price, quantity, block.timestamp, metadata)
         );
     }
 
     function withdrawWIRON(address to, uint256 amount) public {
+        require(amtMap[msg.sender] >= amount, "insufficient amount");
+        amtMap[msg.sender] -= amount;
         wContract.transfer(to, amount);
     }
 
@@ -61,11 +66,12 @@ contract Merchant {
 
     function sendWIRON(uint256 amount) public {
         wContract.transferFrom(msg.sender, address(this), amount);
+        amtMap[msg.sender] += amount;
     }
 
-    // function balanceOfWIRON() public returns (uint256){
-    //     return wContract.balanceOf(address(this));
-    // }
+    function balanceOfWIRON() public view returns (uint256) {
+        return amtMap[msg.sender];
+    }
 
     mapping(address => bytes[]) addressMap;
 
