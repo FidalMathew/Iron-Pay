@@ -1,0 +1,116 @@
+RpcMemoryClient {
+  node: {
+    getStatus: [Function: getStatus],
+    getStatusStream: [Function: getStatusStream],
+    stopNode: [Function: stopNode],
+    getLogStream: [Function: getLogStream]
+  },
+  wallet: {
+    getAccounts: [Function: getAccounts],
+    getDefaultAccount: [Function: getDefaultAccount],
+    createAccount: [Function: createAccount],
+    useAccount: [Function: useAccount],
+    renameAccount: [Function: renameAccount],
+    removeAccount: [Function: removeAccount],
+    getAccountBalances: [Function: getAccountBalances],
+    getAccountBalance: [Function: getAccountBalance],
+    rescanAccountStream: [Function: rescanAccountStream],
+    exportAccount: [Function: exportAccount],
+    importAccount: [Function: importAccount],
+    getAccountPublicKey: [Function: getAccountPublicKey],
+    getAccountNotesStream: [Function: getAccountNotesStream],
+    getAccountStatus: [Function: getAccountStatus],
+    getAccountsStatus: [Function: getAccountsStatus],
+    getAccountTransaction: [Function: getAccountTransaction],
+    getAccountTransactionsStream: [Function: getAccountTransactionsStream],
+    getNotes: [Function: getNotes],
+    getAsset: [Function: getAsset],
+    mintAsset: [Function: mintAsset],
+    burnAsset: [Function: burnAsset],
+    sendTransaction: [Function: sendTransaction],
+    getAssets: [Function: getAssets],
+    postTransaction: [Function: postTransaction],
+    addTransaction: [Function: addTransaction],
+    createTransaction: [Function: createTransaction],
+    estimateFeeRates: [Function: estimateFeeRates],
+    getNodeStatus: [Function: getNodeStatus],
+    getNodeStatusStream: [Function: getNodeStatusStream]
+  },
+  mempool: {
+    acceptTransaction: [Function: acceptTransaction],
+    getMempoolTransactionsStream: [Function: getMempoolTransactionsStream],
+    getMempoolStatus: [Function: getMempoolStatus],
+    getMempoolStatusStream: [Function: getMempoolStatusStream]
+  },
+  peer: {
+    addPeer: [Function: addPeer],
+    getBannedPeers: [Function: getBannedPeers],
+    getBannedPeersStream: [Function: getBannedPeersStream],
+    getPeers: [Function: getPeers],
+    getPeersStream: [Function: getPeersStream],
+    getPeer: [Function: getPeer],
+    getPeerStream: [Function: getPeerStream],
+    getPeerMessages: [Function: getPeerMessages],
+    getPeerMessagesStream: [Function: getPeerMessagesStream]
+  },
+  worker: {
+    getWorkersStatus: [Function: getWorkersStatus],
+    getWorkersStatusStream: [Function: getWorkersStatusStream]
+  },
+  rpc: {
+    getRpcStatus: [Function: getRpcStatus],
+    getRpcStatusStream: [Function: getRpcStatusStream]
+  },
+  event: {
+    onGossipStream: [Function: onGossipStream],
+    onReorganizeChainStream: [Function: onReorganizeChainStream],
+    onTransactionGossipStream: [Function: onTransactionGossipStream]
+  },
+  miner: {
+    blockTemplateStream: [Function: blockTemplateStream],
+    submitBlock: [Function: submitBlock]
+  },
+  faucet: { getFunds: [Function: getFunds] },
+  chain: {
+    estimateFeeRates: [Function: estimateFeeRates],
+    estimateFeeRate: [Function: estimateFeeRate],
+    getChainInfo: [Function: getChainInfo],
+    exportChainStream: [Function: exportChainStream],
+    followChainStream: [Function: followChainStream],
+    getBlock: [Function: getBlock],
+    getDifficulty: [Function: getDifficulty],
+    getNoteWitness: [Function: getNoteWitness],
+    getNetworkHashPower: [Function: getNetworkHashPower],
+    showChain: [Function: showChain],
+    getTransactionStream: [Function: getTransactionStream],
+    getTransaction: [Function: getTransaction],
+    getConsensusParameters: [Function: getConsensusParameters],
+    getAsset: [Function: getAsset],
+    getNetworkInfo: [Function: getNetworkInfo],
+    isValidPublicAddress: [Function: isValidPublicAddress],
+    broadcastTransaction: [Function: broadcastTransaction]
+  },
+  config: {
+    getConfig: [Function: getConfig],
+    setConfig: [Function: setConfig],
+    unsetConfig: [Function: unsetConfig],
+    uploadConfig: [Function: uploadConfig]
+  },
+  multisig: {
+    createTrustedDealerKeyPackage: [Function: createTrustedDealerKeyPackage],
+    createSigningPackage: [Function: createSigningPackage],
+    createSigningCommitment: [Function: createSigningCommitment]
+  },
+  router: Router {
+    routes: Routes { routes: [Map] },
+    server: RpcServer {
+      adapters: [Array],
+      _isRunning: false,
+      _startPromise: null,
+      authTokenBuffer: <Buffer 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ... 206 more bytes>,
+      context: [FullNode],
+      internal: [InternalStore],
+      logger: [_]
+    }
+  }
+}
