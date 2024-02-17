@@ -1,7 +1,7 @@
 import NavbarComponent from "@/components/NavbarComponent";
-import {Plus} from "lucide-react";
-import {useState} from "react";
-import {Button} from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 import {
   Dialog,
@@ -10,11 +10,34 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {Field, Form, Formik} from "formik";
-import {Input} from "@/components/ui/input";
-import {Label} from "@radix-ui/react-dropdown-menu";
+import { Field, Form, Formik } from "formik";
+import { Input } from "@/components/ui/input";
+import { Label } from "@radix-ui/react-dropdown-menu";
+import abi from "@/lib/merchant.json";
+import { useReadContract, useWriteContract } from 'wagmi'
+
 export default function Integration() {
   const [openIntegrationModal, setOpenIntegrationModal] = useState(false);
+  const [addressAccounts, setAddressAccounts] = useState([]);
+
+  const { writeContract } = useWriteContract()
+  const contractAddress = "0x1e263d1073CF8879FfFfa2ce2d36Ff897bcaF382";
+
+  // const getAddressAccounts = () => {
+
+
+  //   if (0)
+  //     setAddressAccounts(result.data)
+  //   console.log(result.data, "result");
+  // }
+
+  const result = useReadContract({
+    abi,
+    address: contractAddress,
+    functionName: "addressAccounts",
+  });
+
+  console.log(result.data, 'result')
 
   return (
     <>
@@ -32,7 +55,17 @@ export default function Integration() {
                 initialValues={{
                   ironFishAddress: "",
                 }}
-                onSubmit={(val) => console.log(val)}
+                onSubmit={(val) => {
+                  console.log(val)
+                  // writeContract({
+                  //   abi,
+                  //   address: contractAddress,
+                  //   functionName: "registerShop",
+                  //   args: [
+                  //     val.ironFishAddress
+                  //   ],
+                  // });
+                }}
               >
                 {(formik) => (
                   <Form className="py-4">

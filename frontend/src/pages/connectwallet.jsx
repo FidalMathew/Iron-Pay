@@ -1,7 +1,7 @@
-import {ConnectKitButton} from "connectkit";
-import {useEffect} from "react";
-import {useAccount} from "wagmi";
-import {useRouter} from "next/router";
+import { ConnectKitButton } from "connectkit";
+import { useEffect } from "react";
+import { useAccount, } from "wagmi";
+import { useRouter } from "next/router";
 
 export default function connectwallet() {
   const account = useAccount();
