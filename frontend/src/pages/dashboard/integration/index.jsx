@@ -2,7 +2,6 @@ import NavbarComponent from "@/components/NavbarComponent";
 import {Plus} from "lucide-react";
 import {useEffect, useState} from "react";
 import {Button} from "@/components/ui/button";
-import {readContract} from "@wagmi/core";
 import {
   Dialog,
   DialogContent,
@@ -14,44 +13,41 @@ import {Field, Form, Formik} from "formik";
 import {Input} from "@/components/ui/input";
 import {Label} from "@radix-ui/react-dropdown-menu";
 import {abi} from "@/lib/merchant";
-import {useReadContract, useWriteContract} from "wagmi";
-import {config} from "@/utils/ConnectKitProvider";
+import {ethers} from "ethers";
+import {useRouter} from "next/router";
+import {v4 as uuidv4} from "uuid";
 
 export default function Integration() {
   const [openIntegrationModal, setOpenIntegrationModal] = useState(false);
-  const [addressAccounts, setAddressAccounts] = useState([]);
+  const router = useRouter();
+  const [allIntegrations, setAllIntegrations] = useState([]);
+  const contractAddress = "0xF26aDc0A9c90cdA8c21c267aCC1d3e408F2B8384";
 
-  const {writeContract} = useWriteContract();
-  const contractAddress = "0x9D594af7975575cf8bab5031F4d50b400606D1BB";
+  const ETHERSJS_PROVIDERS = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = ETHERSJS_PROVIDERS.getSigner();
+  const contract = new ethers.Contract(contractAddress, abi, signer);
 
-  // const getAddressAccounts = () => {
+  async function registerShop(val) {
+    // console.log(uuidv4());
+    try {
+      const result = await contract.registerShop(
+        val.nameOfShop,
+        val.ironFishAddress,
+        uuidv4()
+      );
+      console.log("result", result);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
-  //   if (0)
-  //     setAddressAccounts(result.data)
-  //   console.log(result.data, "result");
-  // }
-
-  const result = useReadContract({
-    abi: abi,
-    address: contractAddress,
-    functionName: "addressAccounts",
-  });
-
-  console.log(result, "result");
-
-  // const runUpdates = async () => {
-  //   const result = await readContract(config, {
-  //     abi: abi,
-  //     address: contractAddress,
-  //     functionName: "test",
-  //   });
-  //   console.log(result, "result");
-  //   return result;
-  // };
-
-  // useEffect(() => {
-  //   runUpdates();
-  // }, []);
+  useEffect(() => {
+    (async function getAllAccountAddresses() {
+      const results = await contract.retrieveAllIntegrations();
+      console.log("results", results);
+      setAllIntegrations(results);
+    })();
+  }, []);
 
   return (
     <>
@@ -63,25 +59,30 @@ export default function Integration() {
       >
         <DialogContent className="border-[2.5px] border-black">
           <DialogHeader>
-            <DialogTitle>Connect your Iron Fish Account</DialogTitle>
+            <DialogTitle>Add Iron Fish Address to your Integration</DialogTitle>
             <DialogDescription>
               <Formik
                 initialValues={{
+                  nameOfShop: "",
                   ironFishAddress: "",
                 }}
-                onSubmit={(val) => {
-                  console.log(val);
-                  writeContract({
-                    abi,
-                    address: contractAddress,
-                    functionName: "register",
-                    args: [val.ironFishAddress],
-                  });
-                }}
+                onSubmit={(val) => registerShop(val)}
               >
                 {(formik) => (
-                  <Form className="py-4">
-                    <div className="flex flex-col space-y-3">
+                  <Form className="py-4 flex flex-col space-y-5">
+                    <div className="flex flex-col space-y-2">
+                      <Label className="ml-1" htmlFor="nameOfShop">
+                        Name of Shop
+                      </Label>
+                      <Field
+                        as={Input}
+                        name="nameOfShop"
+                        label="nameOfShop"
+                        className="border-2 border-black focus-visible:ring-0"
+                        placeholder="Name of Shop"
+                      />
+                    </div>
+                    <div className="flex flex-col space-y-2">
                       <Label className="ml-1" htmlFor="ironFishAddress">
                         Iron Fish account address
                       </Label>
@@ -108,7 +109,34 @@ export default function Integration() {
           </DialogHeader>
         </DialogContent>
       </Dialog>
-      <div className="h-full w-full font-ironFont p-7">
+      <div className="h-full w-full font-ironFont p-7 flex gap-3">
+        {allIntegrations.length !== 0 &&
+          allIntegrations.map((integration) => (
+            <div
+              className="relative group cursor-pointer"
+              onClick={() =>
+                router.push(`/dashboard/integration/${integration.id}`)
+              }
+            >
+              <div className="h-[200px] w-[350px] rounded-[0.1rem] border-2 border-black flex flex-col p-5 gap-3 bg-white absolute z-10 font-semibold text-lg">
+                <p>
+                  <span className="font-normal">Name: </span>
+                  <span>{integration.name}</span>
+                </p>
+                <p>
+                  <span className="font-normal">Iron Fish Address: </span>
+                  <span>
+                    {integration.Address.slice(2, 10) +
+                      "..." +
+                      integration.Address.slice(-5)}
+                  </span>
+                </p>
+              </div>
+              <div
+                className={`border border-black h-[200px] w-[350px] translate-x-[4px] translate-y-[4px] z-0 rounded-[0.1rem] group-hover:translate-x-[3px] group-hover:translate-y-[3px] duration-100 ease-in bg-pink-500`}
+              />
+            </div>
+          ))}
         <div
           className="relative group cursor-pointer"
           onClick={() => setOpenIntegrationModal((prev) => !prev)}

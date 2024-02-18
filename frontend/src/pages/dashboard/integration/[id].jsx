@@ -1,11 +1,26 @@
 import NavbarComponent from "@/components/NavbarComponent";
 import {useRouter} from "next/router";
 import {ClipboardCopy, Check} from "lucide-react";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {ethers} from "ethers";
+import {abi} from "@/lib/merchant";
 
 export default function IntegrationId() {
   const router = useRouter();
   const [isCopySuccessful, setIsCopySuccessful] = useState(false);
+
+  const contractAddress = "0xF26aDc0A9c90cdA8c21c267aCC1d3e408F2B8384";
+
+  const ETHERSJS_PROVIDERS = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = ETHERSJS_PROVIDERS.getSigner();
+  const contract = new ethers.Contract(contractAddress, abi, signer);
+
+  useEffect(() => {
+    (async function retrieveAddress() {
+      const results = await contract.getAddressById(router.query.id);
+      console.log("address", results);
+    })();
+  }, []);
 
   const codeString = `
   import {IronFishButton} from "ironpay-sdk";
@@ -13,10 +28,7 @@ export default function IntegrationId() {
   export default function YourApp() {
     return (
       <IronFishButton
-        text="helloworld"
-        amount={100000000}
-        address={address}
-        style={{color: "red", fontSize: "40px"}}
+        id={${router.query.id}}
       />
     );
   }

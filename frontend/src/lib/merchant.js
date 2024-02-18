@@ -1,26 +1,13 @@
 export const abi = [
   {
-    "inputs": [],
-    "name": "readPlease",
-    "outputs": [
-      {
-        "internalType": "string[]",
-        "name": "",
-        "type": "string[]"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
-        "internalType": "string",
-        "name": "_ironAddress",
-        "type": "string"
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
       }
     ],
-    "name": "register",
+    "name": "allowWIRON",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -28,9 +15,19 @@ export const abi = [
   {
     "inputs": [
       {
-        "internalType": "bytes",
-        "name": "_ironAddress",
-        "type": "bytes"
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_ironFishAddress",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "id",
+        "type": "string"
       }
     ],
     "name": "registerShop",
@@ -64,13 +61,18 @@ export const abi = [
         "type": "uint256"
       },
       {
-        "internalType": "bytes",
+        "internalType": "string",
         "name": "metadata",
-        "type": "bytes"
+        "type": "string"
       },
       {
         "internalType": "string",
         "name": "productId",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "name",
         "type": "string"
       },
       {
@@ -125,49 +127,22 @@ export const abi = [
         "type": "uint256"
       }
     ],
-    "name": "addMap",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "addressAccounts",
-    "outputs": [
-      {
-        "internalType": "bytes[]",
-        "name": "",
-        "type": "bytes[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
     "name": "addressMap",
     "outputs": [
       {
-        "internalType": "bytes",
-        "name": "",
-        "type": "bytes"
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "Address",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "id",
+        "type": "string"
       }
     ],
     "stateMutability": "view",
@@ -206,13 +181,130 @@ export const abi = [
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "test",
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "a",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "b",
+        "type": "string"
+      }
+    ],
+    "name": "compareStrings",
     "outputs": [
       {
-        "internalType": "string[]",
+        "internalType": "bool",
         "name": "",
-        "type": "string[]"
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_id",
+        "type": "string"
+      }
+    ],
+    "name": "getAddressById",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "retrieveAllIntegrations",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "Address",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "id",
+            "type": "string"
+          }
+        ],
+        "internalType": "struct Merchant.Integration[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "totalRevenue",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "transactions",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "productId",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "price",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "quantity",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "owner",
+        "type": "string"
       }
     ],
     "stateMutability": "view",
@@ -227,6 +319,11 @@ export const abi = [
           {
             "internalType": "string",
             "name": "productId",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
             "type": "string"
           },
           {
@@ -245,9 +342,9 @@ export const abi = [
             "type": "uint256"
           },
           {
-            "internalType": "bytes",
+            "internalType": "string",
             "name": "owner",
-            "type": "bytes"
+            "type": "string"
           }
         ],
         "internalType": "struct Merchant.Product[]",

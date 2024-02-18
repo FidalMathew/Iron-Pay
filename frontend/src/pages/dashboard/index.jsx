@@ -4,6 +4,7 @@ import {useEffect, useRef, useState} from "react";
 import {useAccount} from "wagmi";
 import {useDisconnect} from "wagmi";
 import {useChains} from "wagmi";
+import {ethers} from "ethers";
 import {Bar, BarChart, ResponsiveContainer, XAxis, YAxis} from "recharts";
 import {
   Card,
@@ -12,7 +13,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {
   ShoppingBag,
   ShoppingCart,
@@ -20,6 +20,7 @@ import {
   ShoppingBasket,
   BaggageClaim,
 } from "lucide-react";
+import {abi} from "@/lib/merchant";
 
 const data = [
   {
@@ -80,6 +81,21 @@ export default function DashabordHomepage() {
   const chains = useChains();
   console.log(chains, "chain");
   const ref = useRef();
+  const [revenue, setRevenue] = useState(0);
+
+  const contractAddress = "0xF26aDc0A9c90cdA8c21c267aCC1d3e408F2B8384";
+
+  const ETHERSJS_PROVIDERS = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = ETHERSJS_PROVIDERS.getSigner();
+  const contract = new ethers.Contract(contractAddress, abi, signer);
+
+  useEffect(() => {
+    (async function revenuefunc() {
+      const results = await contract.totalRevenue();
+      console.log("revenue", Number(results));
+      setRevenue(Number(results));
+    })();
+  }, []);
 
   useEffect(() => {
     if (!account.address) {
@@ -107,12 +123,12 @@ export default function DashabordHomepage() {
             </div>
           </div>
           <div className="flex justify-center">
-            <Card className="w-[500px] border-2 border-black shadow-[2px_2px_0_0_#000]">
+            <Card className="w-[500px] border-2 border-black shadow-[2px_2px_0_0_#000] text-xl">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
                   Total Revenue
                 </CardTitle>
-                <svg
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="none"
@@ -123,10 +139,18 @@ export default function DashabordHomepage() {
                   className="h-4 w-4 text-muted-foreground"
                 >
                   <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                </svg>
+                </svg> */}
+
+                <img
+                  src="https://ironfish.network/_next/static/media/hex-fish.ceace82e.svg"
+                  alt="iron"
+                  style={{width: "24px", height: "15px"}}
+                />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">$45,231.89</div>
+                <div className="text-2xl font-bold">
+                  {revenue && revenue} IRON
+                </div>
               </CardContent>
             </Card>
           </div>
