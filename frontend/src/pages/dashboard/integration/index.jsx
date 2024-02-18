@@ -1,8 +1,8 @@
 import NavbarComponent from "@/components/NavbarComponent";
-import { Plus } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-
+import {Plus} from "lucide-react";
+import {useEffect, useState} from "react";
+import {Button} from "@/components/ui/button";
+import {readContract} from "@wagmi/core";
 import {
   Dialog,
   DialogContent,
@@ -10,21 +10,21 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Field, Form, Formik } from "formik";
-import { Input } from "@/components/ui/input";
-import { Label } from "@radix-ui/react-dropdown-menu";
-import abi from "@/lib/merchant.json";
-import { useReadContract, useWriteContract } from 'wagmi'
+import {Field, Form, Formik} from "formik";
+import {Input} from "@/components/ui/input";
+import {Label} from "@radix-ui/react-dropdown-menu";
+import {abi} from "@/lib/merchant";
+import {useReadContract, useWriteContract} from "wagmi";
+import {config} from "@/utils/ConnectKitProvider";
 
 export default function Integration() {
   const [openIntegrationModal, setOpenIntegrationModal] = useState(false);
   const [addressAccounts, setAddressAccounts] = useState([]);
 
-  const { writeContract } = useWriteContract()
-  const contractAddress = "0x1e263d1073CF8879FfFfa2ce2d36Ff897bcaF382";
+  const {writeContract} = useWriteContract();
+  const contractAddress = "0x9D594af7975575cf8bab5031F4d50b400606D1BB";
 
   // const getAddressAccounts = () => {
-
 
   //   if (0)
   //     setAddressAccounts(result.data)
@@ -32,12 +32,26 @@ export default function Integration() {
   // }
 
   const result = useReadContract({
-    abi,
+    abi: abi,
     address: contractAddress,
     functionName: "addressAccounts",
   });
 
-  console.log(result.data, 'result')
+  console.log(result, "result");
+
+  // const runUpdates = async () => {
+  //   const result = await readContract(config, {
+  //     abi: abi,
+  //     address: contractAddress,
+  //     functionName: "test",
+  //   });
+  //   console.log(result, "result");
+  //   return result;
+  // };
+
+  // useEffect(() => {
+  //   runUpdates();
+  // }, []);
 
   return (
     <>
@@ -56,14 +70,12 @@ export default function Integration() {
                   ironFishAddress: "",
                 }}
                 onSubmit={(val) => {
-                  console.log(val)
+                  console.log(val);
                   writeContract({
                     abi,
                     address: contractAddress,
-                    functionName: "registerShop",
-                    args: [
-                      val.ironFishAddress
-                    ],
+                    functionName: "register",
+                    args: [val.ironFishAddress],
                   });
                 }}
               >
@@ -96,7 +108,7 @@ export default function Integration() {
           </DialogHeader>
         </DialogContent>
       </Dialog>
-      <div className="h-[90%] w-full font-ironFont p-7">
+      <div className="h-full w-full font-ironFont p-7">
         <div
           className="relative group cursor-pointer"
           onClick={() => setOpenIntegrationModal((prev) => !prev)}

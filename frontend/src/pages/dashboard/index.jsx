@@ -130,8 +130,8 @@ export default function DashabordHomepage() {
               </CardContent>
             </Card>
           </div>
-          <div className="flex gap-5 h-full w-full">
-            <Card className="w-2/3 border-2 border-black shadow-[2px_2px_0_0_#000]">
+          <div className="flex gap-5 h-full w-full flex-col md:flex-row">
+            <Card className="w-full md:w-2/3 border-2 border-black shadow-[2px_2px_0_0_#000]">
               <CardHeader>
                 <CardTitle>Overview</CardTitle>
               </CardHeader>
@@ -157,7 +157,7 @@ export default function DashabordHomepage() {
                 </ResponsiveContainer>
               </CardContent>
             </Card>
-            <Card className="w-1/3 border-2 border-black shadow-[2px_2px_0_0_#000]">
+            <Card className="w-full md:w-1/3 border-2 border-black shadow-[2px_2px_0_0_#000]">
               <CardHeader>
                 <CardTitle>Recent Sales</CardTitle>
                 <CardDescription>
