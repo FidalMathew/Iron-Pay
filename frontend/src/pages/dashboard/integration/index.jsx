@@ -21,7 +21,7 @@ export default function Integration() {
   const [openIntegrationModal, setOpenIntegrationModal] = useState(false);
   const router = useRouter();
   const [allIntegrations, setAllIntegrations] = useState([]);
-  const contractAddress = "0xF26aDc0A9c90cdA8c21c267aCC1d3e408F2B8384";
+  const contractAddress = "0x8f2806160077e9cd6532DBC6F1886082479290f6";
 
   const ETHERSJS_PROVIDERS = new ethers.providers.Web3Provider(window.ethereum);
   const signer = ETHERSJS_PROVIDERS.getSigner();
