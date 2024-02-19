@@ -70,7 +70,7 @@ export default function Home() {
                     (val.price / 10000) * 1 * 100000000
                     // 100000000
                   }
-                  id="bb32dcb3-a8c8-47f4-aab0-3bcf9af3b778"
+                  id="702c2087-289c-449c-821f-c1f6625ec948"
                   product={{
                     productId: parseInt(val.productId),
                     price: (val.price / 10000) * 100000000,

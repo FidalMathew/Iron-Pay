@@ -106,7 +106,7 @@ export default function DashabordHomepage() {
         console.log("Month:", month);
 
         temp[month] +=
-          parseInt(transaction.price) * parseInt(transaction.quantity);
+          (parseInt(transaction.price) * parseInt(transaction.quantity)) / 1e8;
       });
 
       let tempData = [];
@@ -167,7 +167,7 @@ export default function DashabordHomepage() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {parseInt(revenue)} IRON
+                  {parseInt(revenue) / 1e8} IRON
                 </div>
               </CardContent>
             </Card>

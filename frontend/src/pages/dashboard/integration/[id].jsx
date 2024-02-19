@@ -8,6 +8,7 @@ import {abi} from "@/lib/merchant";
 export default function IntegrationId() {
   const router = useRouter();
   const [isCopySuccessful, setIsCopySuccessful] = useState(false);
+  const [isCopySuccessful1, setIsCopySuccessful1] = useState(false);
 
   const contractAddress = "0xcea3f55B9f65Ac24fBaCBf9516c3f291F9DFd1D6";
 
@@ -22,7 +23,12 @@ export default function IntegrationId() {
     })();
   }, []);
 
-  console.log(router.query, "query");
+  useEffect(() => {
+    if (router.isReady) {
+      // Code using query
+      console.log(router.query);
+    }
+  }, [router.isReady]);
 
   const codeString = `
   import {IronFishButton} from "ironpay-sdk";
@@ -33,7 +39,6 @@ export default function IntegrationId() {
         id={${router.query.id}}
         text="Pay with Iron"
           amount={100000000}
-          id="023ce65e-69d5-49b0-9199-01cfa340d2d9"
           // example product object
           product={{
             name: "Ironfish",
@@ -41,7 +46,6 @@ export default function IntegrationId() {
             qty: 2,
             productId: "002",
             timestamp: "0",
-            owner: "0x664b8b9892b7560b356ef0f8d44cbd1f6628e388",
           }}
       />
     );
@@ -62,6 +66,21 @@ export default function IntegrationId() {
     }
   };
 
+  const handleCopyClick1 = async (codestring) => {
+    try {
+      await navigator.clipboard.writeText(codestring);
+      setIsCopySuccessful1(true);
+
+      // Reset the success state after 1.5 seconds
+      setTimeout(() => {
+        setIsCopySuccessful1(false);
+      }, 1500);
+    } catch (error) {
+      console.error("Error copying to clipboard:", error);
+    }
+  };
+
+  // if (!router.isReady) return <div>Loading...</div>;
   return (
     <div className="h-screen w-full">
       <NavbarComponent />
@@ -72,11 +91,11 @@ export default function IntegrationId() {
             <p className="truncate mt-4">{router.query.integration[1]}</p>
           </div>
           <div className="w-1/2 relative h-full flex flex-col p-10 font-ironFont md:h-full border-2 border-black shadow-[2px_2px_0_0_#000] text-2xl">
-            {isCopySuccessful ? (
+            {isCopySuccessful1 ? (
               <Check className="duration-100 ease-in-out absolute right-4 top-4 text-slate-600 hover:bg-slate-300 rounded-sm cursor-pointer p-1 h-[30px] w-[30px]" />
             ) : (
               <ClipboardCopy
-                onClick={handleCopyClick}
+                onClick={() => handleCopyClick1(router.query.id)}
                 className="duration-100 ease-in-out absolute right-4 top-4 text-slate-600 hover:bg-slate-300 rounded-sm cursor-pointer p-1 h-[30px] w-[30px]"
               />
             )}
@@ -91,7 +110,7 @@ export default function IntegrationId() {
               <Check className="duration-100 ease-in-out absolute right-4 top-4 text-slate-600 hover:bg-slate-300 rounded-sm cursor-pointer p-1 h-[30px] w-[30px]" />
             ) : (
               <ClipboardCopy
-                onClick={handleCopyClick}
+                onClick={() => handleCopyClick(codeString)}
                 className="duration-100 ease-in-out absolute right-4 top-4 text-slate-600 hover:bg-slate-300 rounded-sm cursor-pointer p-1 h-[30px] w-[30px]"
               />
             )}
