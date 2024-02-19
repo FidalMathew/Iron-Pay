@@ -22,57 +22,6 @@ import {
 } from "lucide-react";
 import {abi} from "@/lib/merchant";
 
-const data = [
-  {
-    name: "Jan",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Feb",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Mar",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Apr",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "May",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Jun",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Jul",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Aug",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Sep",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Oct",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Nov",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Dec",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-];
-
 export default function DashabordHomepage() {
   const account = useAccount();
   console.log(account, "acc");
@@ -83,17 +32,36 @@ export default function DashabordHomepage() {
   const ref = useRef();
   const [revenue, setRevenue] = useState(0);
 
-  const contractAddress = "0x8f2806160077e9cd6532DBC6F1886082479290f6";
+  const contractAddress = "0xcea3f55B9f65Ac24fBaCBf9516c3f291F9DFd1D6";
 
   const ETHERSJS_PROVIDERS = new ethers.providers.Web3Provider(window.ethereum);
   const signer = ETHERSJS_PROVIDERS.getSigner();
   const contract = new ethers.Contract(contractAddress, abi, signer);
 
+  const [transactions, setTransactions] = useState([]);
   useEffect(() => {
-    (async function revenuefunc() {
-      const results = await contract.totalRevenue();
-      console.log("revenue", Number(results));
-      setRevenue(Number(results));
+    (async function viewTransactions() {
+      console.log(contract);
+      const results = await contract.viewTransactions();
+      console.log("resultttttttts ", results);
+
+      let temp = [];
+
+      let amt = 0;
+
+      results.map((result) => {
+        temp.push({
+          name: result.name,
+          owner: result.owner,
+          price: result.price,
+          quantity: result.quantity,
+          timestamp: result.timestamp,
+        });
+        amt += result.price * result.quantity;
+      });
+      setRevenue(amt);
+      setTransactions(temp);
+      // setRevenue(Number(results));
     })();
   }, []);
 
@@ -102,6 +70,56 @@ export default function DashabordHomepage() {
       router.push("/connectwallet");
     }
   }, [account.address]);
+
+  const [sales, setSales] = useState([]);
+
+  const getMonthName = (idx) => {
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    return monthNames[idx];
+  };
+  useEffect(() => {
+    const monthlySales = () => {
+      let temp = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+      transactions.forEach((transaction) => {
+        let timestampValue = parseInt(transaction.timestamp.toString(), 16);
+        let date = new Date(timestampValue);
+        let month = date.getMonth();
+
+        // Log the results for testing
+        console.log("Original Timestamp:", transaction.timestamp._hex);
+        console.log("Converted Date:", date);
+        console.log("Month:", month);
+
+        temp[month] +=
+          parseInt(transaction.price) * parseInt(transaction.quantity);
+      });
+
+      let tempData = [];
+      temp.forEach((val, idx) => {
+        tempData.push({
+          name: getMonthName(idx),
+          total: val,
+        });
+      });
+      setSales(tempData);
+    };
+    monthlySales();
+  }, [transactions]);
 
   return (
     <>
@@ -149,7 +167,7 @@ export default function DashabordHomepage() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {revenue && revenue} IRON
+                  {parseInt(revenue)} IRON
                 </div>
               </CardContent>
             </Card>
@@ -161,7 +179,7 @@ export default function DashabordHomepage() {
               </CardHeader>
               <CardContent className="pl-2">
                 <ResponsiveContainer width="100%" height={350}>
-                  <BarChart data={data}>
+                  <BarChart data={sales}>
                     <XAxis
                       dataKey="name"
                       stroke="#888888"
@@ -174,7 +192,7 @@ export default function DashabordHomepage() {
                       fontSize={12}
                       tickLine={false}
                       axisLine={false}
-                      tickFormatter={(value) => `$${value}`}
+                      tickFormatter={(value) => `${value}`}
                     />
                     <Bar dataKey="total" fill="#FFC2E8" radius={[4, 4, 0, 0]} />
                   </BarChart>
@@ -185,75 +203,31 @@ export default function DashabordHomepage() {
               <CardHeader>
                 <CardTitle>Recent Sales</CardTitle>
                 <CardDescription>
-                  You made 265 sales this month.
+                  You made {transactions.length} sales this month.
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-8">
-                  <div className="flex items-center">
-                    {/* <Avatar className="h-9 w-9">
-                      <AvatarImage src="/avatars/01.png" alt="Avatar" />
-                      <AvatarFallback>OM</AvatarFallback>
-                    </Avatar> */}
-                    <div className="rounded-full bg-slate-100 p-2">
-                      <ShoppingBag />
-                    </div>
-                    <div className="ml-4 space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        Ergonomic Metal Towels
-                      </p>
-                      <p className="text-sm text-muted-foreground">3 Qty</p>
-                    </div>
-                    <div className="ml-auto font-medium">+$1,999.00</div>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="rounded-full bg-slate-100 p-2">
-                      <ShoppingCart />
-                    </div>
-                    <div className="ml-4 space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        Luxurious Bronze Hat
-                      </p>
-                      <p className="text-sm text-muted-foreground">3 Qty</p>
-                    </div>
-                    <div className="ml-auto font-medium">+$39.00</div>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="rounded-full bg-slate-100 p-2">
-                      <ShoppingBasket />
-                    </div>
-                    <div className="ml-4 space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        Oriental Steel Towels
-                      </p>
-                      <p className="text-sm text-muted-foreground">3 Qty</p>
-                    </div>
-                    <div className="ml-auto font-medium">+$299.00</div>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="rounded-full bg-slate-100 p-2">
-                      <BaggageClaim />
-                    </div>
-                    <div className="ml-4 space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        Handmade Soft Chair
-                      </p>
-                      <p className="text-sm text-muted-foreground">3 Qty</p>
-                    </div>
-                    <div className="ml-auto font-medium">+$99.00</div>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="rounded-full bg-slate-100 p-2">
-                      <ScanBarcode />
-                    </div>
-                    <div className="ml-4 space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        Luxurious Plastic Shirt
-                      </p>
-                      <p className="text-sm text-muted-foreground">3 Qty</p>
-                    </div>
-                    <div className="ml-auto font-medium">+$39.00</div>
-                  </div>
+                  {transactions.map((transaction) => {
+                    return (
+                      <div className="flex items-center">
+                        <div className="rounded-full bg-slate-100 p-2">
+                          <ShoppingBag />
+                        </div>
+                        <div className="ml-4 space-y-1">
+                          <p className="text-sm font-medium leading-none">
+                            {transaction.name}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            {parseInt(transaction.quantity)} Qty
+                          </p>
+                        </div>
+                        <div className="ml-auto font-medium">
+                          {parseInt(transaction.price) / 100000000}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </CardContent>
             </Card>

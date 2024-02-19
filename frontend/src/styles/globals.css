@@ -102,3 +102,13 @@
   z-index: 0;
   border-radius: 0.1rem;
 } */
+
+
+.box-code::-webkit-scrollbar {
+  width: 0.3em;
+}
+
+.box-code::-webkit-scrollbar-thumb {
+  background-color: rgb(244 114 182);
+  border-radius: 999px;
+}

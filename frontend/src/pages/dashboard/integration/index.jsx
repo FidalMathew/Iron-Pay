@@ -21,7 +21,7 @@ export default function Integration() {
   const [openIntegrationModal, setOpenIntegrationModal] = useState(false);
   const router = useRouter();
   const [allIntegrations, setAllIntegrations] = useState([]);
-  const contractAddress = "0x8f2806160077e9cd6532DBC6F1886082479290f6";
+  const contractAddress = "0xcea3f55B9f65Ac24fBaCBf9516c3f291F9DFd1D6";
 
   const ETHERSJS_PROVIDERS = new ethers.providers.Web3Provider(window.ethereum);
   const signer = ETHERSJS_PROVIDERS.getSigner();
@@ -115,7 +115,12 @@ export default function Integration() {
             <div
               className="relative group cursor-pointer"
               onClick={() =>
-                router.push(`/dashboard/integration/${integration.id}`)
+                router.push({
+                  pathname: `/dashboard/integration/${integration.id}`,
+                  query: {
+                    integration: integration,
+                  },
+                })
               }
             >
               <div className="h-[200px] w-[350px] rounded-[0.1rem] border-2 border-black flex flex-col p-5 gap-3 bg-white absolute z-10 font-semibold text-lg">

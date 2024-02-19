@@ -15,7 +15,7 @@ export default function Home() {
             <Button
               className="w-full border-2 border-black shadow-[2px_2px_0_0_#000]"
               variant="outline"
-              onClick={() => router.push("/dashboard")}
+              onClick={() => router.push("/connectwallet")}
             >
               Go to Dashboard
             </Button>

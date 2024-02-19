@@ -1,0 +1,40 @@
+/* Card container */
+.flex-1 {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 15px;
+}
+
+/* Title */
+.flex-1>div>duv {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Owner */
+.flex-1>div>div {
+    color: #666;
+}
+
+/* Price */
+.flex-1>div>p {
+    margin: 10px 0;
+}
+
+/* IronfishButton */
+.flex-1>div:last-child {
+    margin-top: 10px;
+}
+
+
+.gap-3 {
+    display: flex;
+    flex-wrap: wrap;
+}
